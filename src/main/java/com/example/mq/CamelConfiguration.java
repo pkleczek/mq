@@ -10,8 +10,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 @Configuration
 public class CamelConfiguration {
     @Bean
@@ -35,10 +33,6 @@ public class CamelConfiguration {
             @Override
             public void configure() throws Exception {
                 from("direct:foobar")
-                    .process(exchange -> {
-                        String body = exchange.getIn().getBody(String.class);
-
-                    })
                     .to(ExchangePattern.InOut, "jms:queue:question?replyTo=answer&requestTimeout=5s")
                     .to("log:client");
             }
